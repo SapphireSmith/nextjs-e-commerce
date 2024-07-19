@@ -14,7 +14,7 @@ const NavIcons = () => {
 
     const router = useRouter();
 
-    const isLoggedIn = false
+    const isLoggedIn = true
 
     const handleProfile = () => {
         if (!isLoggedIn) {
@@ -22,7 +22,7 @@ const NavIcons = () => {
         }
         setIsProfileOpen((prev) => !prev)
     }
-    
+
 
     return (
         <div className='flex items-center gap-4 xl:gap-6 relative'>
@@ -40,14 +40,16 @@ const NavIcons = () => {
 
             <Image src={"/notification.png"} alt='' width={22} height={22} className='cursor-pointer' />
 
-            <div className='relative cursor-pointer'>
+            <div className='relative cursor-pointer'
+                onClick={() => { setIsCartOpen((prev) => !prev) }}
+            >
                 <Image
                     src={"/cart.png"}
                     alt=''
                     width={22}
                     height={22}
                     className='cursor-pointer'
-                    onClick={() => { setIsCartOpen((prev) => !prev) }}
+
                 />
                 <div className='absolute -top-4 -right-4 w-6 h-6 bg-lama rounded-full text-white text-sm flex items-center justify-center'>3</div>
             </div>
