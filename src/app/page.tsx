@@ -36,6 +36,7 @@ const HomePage = async () => {
           <ProductList
             categoryId={process.env.CATEGORY_TSHIRT!}
             limit={4}
+            isHome={true}
           />
         </Suspense>
       </div>

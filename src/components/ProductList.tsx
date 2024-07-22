@@ -8,7 +8,7 @@ import Pagination from './Pagination';
 
 const PRODUCT_PER_PAGE = 8
 
-const ProductList = async ({ categoryId, limit, searchParams }: { categoryId: string; limit?: number, searchParams?: any }) => {
+const ProductList = async ({ categoryId, limit, searchParams, isHome }: { categoryId: string; limit?: number, searchParams?: any, isHome?: boolean }) => {
 
     const wixClient = await wixClientServer();
     const productQuery = await wixClient.products
@@ -73,12 +73,15 @@ const ProductList = async ({ categoryId, limit, searchParams }: { categoryId: st
                     </Link>
                 ))
             }
-            <Pagination
-                currentPage={res.currentPage || 0}
-                hasPrev={res.hasPrev()}
-                hasNext={res.hasNext()}
+            {
+                !isHome &&
+                <Pagination
+                    currentPage={res.currentPage || 0}
+                    hasPrev={res.hasPrev()}
+                    hasNext={res.hasNext()}
 
-            />
+                />
+            }
         </div>
     )
 }

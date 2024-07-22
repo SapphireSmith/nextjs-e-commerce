@@ -1,4 +1,6 @@
 'use client'
+import { useCartStore } from '@/hooks/useCartStore';
+import { useWixClient } from '@/hooks/useWixCient';
 import React, { useState } from 'react'
 const Add = ({ productId, variantId, stockNumber }:
     {
@@ -6,8 +8,6 @@ const Add = ({ productId, variantId, stockNumber }:
         variantId: string;
         stockNumber: number;
     }) => {
-
-
 
     const [quantity, setQuantity] = useState(1);
 
@@ -19,6 +19,11 @@ const Add = ({ productId, variantId, stockNumber }:
             setQuantity((prev) => prev + 1);
         }
     }
+
+    const wixClient = useWixClient();
+
+    const { addItem, isLoading } = useCartStore();
+
     return (
         <div className='flex flex-col gap-4'>
             <h4 className='font-medium'>Choose a Quantity</h4>
@@ -26,24 +31,30 @@ const Add = ({ productId, variantId, stockNumber }:
                 <div className="flex items-center gap-4">
                     <div className='bg-gray-100 py-2 px-4 rounded-3xl flex items-center justify-between w-32'>
                         <button className='cursor-pointer text-xl' onClick={() => handleQuantity("d")}>-</button>
-                        {quantity}
+                        {stockNumber < 1 ? 0 : quantity}
                         <button className='cursor-pointer text-xl' onClick={() => handleQuantity("i")}>+</button>
                     </div>
                     {
                         stockNumber < 1 ? (
                             <div className='text-sm'>Product is out of stock</div>
-                        ) : (
-                            <div className='text-sm'>
-                                Only <span className='text-orange-500'>{stockNumber} items</span> left! <br />
-                                {"Don't"} miss it
-                            </div>
-                        )
+                        ) :
+                            stockNumber < 15 ?
+                                (
+                                    <div className='text-sm'>
+                                        Only <span className='text-orange-500'>{stockNumber} items</span> left! <br />
+                                        {"Don't"} miss it
+                                    </div>
+                                )
+                                : ""
                     }
 
                 </div>
-                <button className='w-36 text-sm rounded-3xl ring-1 ring-lama text-lama py-2 px-4 hover:bg-lama hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white disabled:ring-none'>
-                    Add to Cart
-                </button>
+                {
+                    stockNumber >= 1 &&
+                    <button onClick={() => addItem(wixClient, productId, variantId, quantity)} className='w-36 text-sm rounded-3xl ring-1 ring-lama text-lama py-2 px-4 hover:bg-lama hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:ring-0 disabled:text-white disabled:ring-none' disabled={isLoading}>
+                        Add to Cart
+                    </button>
+                }
             </div>
         </div>
     )

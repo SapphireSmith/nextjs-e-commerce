@@ -66,8 +66,6 @@ const CustomizeProduct = ({
                                 const clickHandler = disabled
                                     ? undefined
                                     : () => handleOptionSelected(option.name!, choice.description!);
-
-                                    console.log(option);
                                     
                                 return option.name === "Color" ?
                                     (
