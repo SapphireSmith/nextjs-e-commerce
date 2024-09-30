@@ -36,7 +36,7 @@ const Add = ({ productId, variantId, stockNumber }:
                     </div>
                     {
                         stockNumber < 1 ? (
-                            <div className='text-sm'>Product is out of stock</div>
+                            <div className='text-sm'>This product is out of stock</div>
                         ) :
                             stockNumber < 15 ?
                                 (
